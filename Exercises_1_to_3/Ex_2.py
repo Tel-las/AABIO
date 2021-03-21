@@ -9,6 +9,9 @@ class SuffixTree_2:
         self.seq2 = ''
 
     def unpack(self, k):
+    """
+    This function filters the -1 of the branches and unpacks the tuple of the leaves
+    """
         if self.nodes[k][0] == -1:
             m = self.nodes[k][0]
             n = ''
@@ -18,13 +21,16 @@ class SuffixTree_2:
 
 
     def print_tree(self):
+    """
+    This function was altered to accomodate the new tuple keys and to unpack them for processing
+    """
         for k in self.nodes.keys():
             m, n = self.unpack(k)
 
-            if m < 0:
-                print(k, "->", self.nodes[k][1])
+            if m < 0: #If different than -1
+                print(k, "->", self.nodes[k][1]) #Print branch
             else:
-                print(k, ":", m, n)
+                print(k, ":", m, n) #Print leaf
 
     def add_node(self, origin, symbol, leafnum=-1):
         self.num += 1  # Incrementa o número do node
@@ -46,15 +52,15 @@ class SuffixTree_2:
 
     def suffix_tree_from_seq(self, seq1, seq2):
         seq1 = seq1 + "$"
-        seq2 = seq2 + "#"
+        seq2 = seq2 + "#" #New seq with new termination "#" is added
         self.seq1 = seq1
         self.seq2 = seq2
         for i in range(len(seq1)):  # Para o range da sequencia mais o sufixo
-            # Passa texto iniciando de uma posição inicial i (iterada no range) e a posição como argumentos a função add_
-            self.add_suffix(seq1[i:], (0, i))
+            # Passa texto iniciando de uma posição inicial i (iterada no range) e a posição como argumentos a função add_suffix
+            self.add_suffix(seq1[i:], (0, i)) # i foi substituido por tuplo, em que o 0 corresponde a uma árvore
         for i in range(len(seq2)):  # Para o range da sequencia mais o sufixo
-            # Passa texto iniciando de uma posição inicial i (iterada no range) e a posição como argumentos a função add_
-            self.add_suffix(seq2[i:], (1, i))
+            # Passa texto iniciando de uma posição inicial i (iterada no range) e a posição como argumentos a função add_suffix
+            self.add_suffix(seq2[i:], (1, i))# i foi substituido por tuplo, em que o 0 corresponde à OUTRA árvore
 
     # Utilizar a suffix tree para encontrar padrões
 
@@ -98,8 +104,8 @@ class SuffixTree_2:
         return match
 
 def test():
-    seq1 = "TATCACAAAA"
-    seq2 = "TATGCACAAAA"
+    seq1 = "TATCACAAAA" #Input the first sequence
+    seq2 = "TATGCACAAAA" #Input the second sequence
     st = SuffixTree_2()
     st.suffix_tree_from_seq(seq1, seq2)
     st.print_tree()

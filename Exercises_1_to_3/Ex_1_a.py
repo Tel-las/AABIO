@@ -62,7 +62,7 @@ class SuffixTree:
         Resolução Exercício 1_a
         """
         if identificador in self.nodes.keys(): # Verificar se o identificador corresponde a um nó da árvore
-            res = list(self.nodes[identificador][1].values()) #Adicionar a uma lista os valores de o dicionário do nó associado ao identificador
+            res = list(self.nodes[identificador][1].values()) #Adicionar a uma lista os valores do dicionário do nó associado ao identificador
             for i in res: #Iterar número dos nós guardados lista
                 res.extend(list(self.nodes[i][1].values())) #Acrescenta os valores obtidos das listas filhas na lista mãe
             return res #Devolve a lista final

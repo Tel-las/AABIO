@@ -2,7 +2,12 @@
 
 
 class Automata:
-    
+    """
+
+    Construir tabela em que vamos ter um dicionario da sequencia em que os matches são contruidos.
+
+
+    """
     def __init__(self, alphabet, pattern):
         self.numstates = len(pattern) + 1
         self.alphabet = alphabet
@@ -10,6 +15,10 @@ class Automata:
         self.buildTransitionTable(pattern)
     
     def buildTransitionTable(self, pattern):
+        """
+        Tabela de transição é implementada como um dicionário, em que as chaves são tuplos (estado anterior, símbolo) e
+        os valores representam o próximo estado
+        """
         for q in range(self.numstates):
             for a in self.alphabet:
                 prefix = pattern[0:q] + a
@@ -26,6 +35,9 @@ class Automata:
         return self.transitionTable.get((current, symbol))
 
     def applySeq(self, seq):
+        """
+    Computa a lista de estados que o algoritmo avança ao processar a sequencia
+        """
         q = 0
         res = [q]
         for c in seq:
@@ -34,16 +46,23 @@ class Automata:
         return res
         
     def occurencesPattern(self, text):
+        """
+        Providencia a lista das posições do padrão na sequência
+
+        """
         q = 0 
         res = []
         #self.applySeq(text).index(self.numstates)
         for i in range(len(text)):
             q = self.nextState(q, text[i])
-            if q == self.numstates - 1:
+            if q == self.numstates - 1: #Após encontrar uma ocorrência é necessário encontrar a posição inicial subtraindo o tamanho do padrão
                 res.append(i - self.numstates + 2)
         return res
 
 def overlap(s1, s2):
+    """
+   Provides the  maximum overlap between the two sequences
+    """
     maxov = min(len(s1), len(s2))
     for i in range(maxov,0,-1):
         if s1[-i:] == s2[:i]: return i

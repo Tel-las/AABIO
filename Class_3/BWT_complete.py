@@ -9,6 +9,10 @@ class BWT:
         self.bwt = bw
 
     def build_bwt(self, text, buildsufarray = False):
+        """
+        Cálculo da matriz M e computação da BWT como a última coluna da matriz M
+        Permite o uso de suffix arrays
+        """
         ls = []
         for i in range(len(text)):
             ls.append(text[i:] + text[:i])
@@ -25,6 +29,10 @@ class BWT:
         return res
 
     def inverse_bwt(self):
+        """
+        Recuperação da sequência original a partir da BWT
+
+        """
         firstcol = self.get_first_col()
         res = ""
         c = "$"
@@ -41,6 +49,9 @@ class BWT:
         return res
 
     def get_first_col(self):
+        """
+        Método auxiliar para permitir a devolução da 1ª coluna da matriz M
+        """
         firstcol = []
         for c in self.bwt:
             firstcol.append(c)
@@ -48,6 +59,10 @@ class BWT:
         return firstcol
 
     def last_to_first(self):
+        """
+        Criação de uma tabela lookup para converter a posição com o mesmo símbolo a partir da última para a 1ª coluna
+
+        """
         res = []
         firstcol = self.get_first_col()
         for i in range(len(firstcol)):
@@ -57,6 +72,11 @@ class BWT:
         return res
 
     def bw_matching(self, patt):
+        """
+        Implementação do processo de pesquisa do processo
+        As variáveis top e bottom servem como apontadores do match
+
+        """
         lf = self.last_to_first()
         res = []
         top = 0
@@ -79,6 +99,9 @@ class BWT:
         return res
 
     def bw_matching_pos(self, patt):
+        """
+        Recolhe as posições de match dos padrões, usando suffix arrays a partir dos resultados do método bw_matching
+        """
         res = []
         matches = self.bw_matching(patt)
         for m in matches:
@@ -89,10 +112,14 @@ class BWT:
 # auxiliary
  
 def find_ith_occ(l, elem, index):
+    """
+    Método auxiliar
+    Encontrar a posição da i-th ocorrência de um símbolo numa lista
+    """
     j,k = 0,0
     while k < index and j < len(l):
         if l[j] == elem:
-            k = k +1
+            k = k + 1
             if k == index: return j
         j += 1
     return -1
